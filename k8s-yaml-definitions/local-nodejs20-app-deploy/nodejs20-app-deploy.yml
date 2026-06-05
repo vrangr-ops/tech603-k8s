@@ -19,4 +19,11 @@ spec:
       - name: sparta-node-app
         image: vrangrops/sparta-test-app:latest
         ports:
-        - containerPort: 3000 # Updated from 80 because this specific app runs on 3000
+        - containerPort: 3000
+        command: ["/bin/sh"]
+        args: ["-c", "node seeds/seed.js; node index.js"]
+        env:
+        - name: MONGODB_URI
+          value: "mongodb://mongodb-service:27017/tictactoe"
+        - name: STATEFUL_MODE
+          value: "mongodb"
