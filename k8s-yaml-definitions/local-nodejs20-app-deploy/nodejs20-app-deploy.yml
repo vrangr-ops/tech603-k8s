@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs20-sparta-app-deployment
+  namespace: default
+  labels:
+    app: nodejs20-sparta-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodejs20-sparta-app
+  template:
+    metadata:
+      labels:
+        app: nodejs20-sparta-app
+    spec:
+      containers:
+      - name: sparta-node-app
+        image: vrangrops/sparta-test-app:latest
+        ports:
+        - containerPort: 3000 # Updated from 80 because this specific app runs on 3000
