@@ -9,6 +9,6 @@ spec:
     app: nodejs20-sparta-app
   ports:
     - protocol: TCP
-      port: 3000       # The port the service uses inside the cluster
-      targetPort: 3000 # Must match the containerPort in the deployment
-      nodePort: 30080  # The port you will use to access the app from your browser/host
+      port: 3000
+      targetPort: 3000
+      nodePort: 30080
