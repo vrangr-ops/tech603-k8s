@@ -1,0 +1,32 @@
+# Handle App 1 (Default HTTP port 80) and App 3 (/hello path)
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    # Third App Deployment: Routing <instance-ip>/hello -> Hello Minikube LoadBalancer
+    location /hello {
+        proxy_pass http://127.0.0.1:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # First App Deployment: Routing <instance-ip>/ -> NodePort 30001 
+    location / {
+        proxy_pass http://192.168.49.2:30001; # Replace with your 'minikube ip'
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+# Second App Deployment: Handle Port 9000
+server {
+    listen 9000;
+    
+    location / {
+        proxy_pass http://127.0.0.1:9000; # Routes to LoadBalancer service port
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
